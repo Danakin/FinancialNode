@@ -10,7 +10,7 @@ const usersRouter = require("./routes/users");
 const app = express();
 
 app.set("view engine", "html");
-nunjucks.configure("views", {
+nunjucks.configure("src/views", {
   autoescape: true,
   express: app,
 });
