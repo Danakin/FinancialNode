@@ -1,17 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ title }}</title>
-  <link rel="stylesheet" href="stylesheets/style.css">
-  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-</head>
-<body>
-  <main class="container mx-auto">
-    {% block content %}
-      Default
-    {% endblock %}
-  </main>
-</body>
-</html>
+{% include './partials/header.njk' %}
+
+{% block content %}
+  Default Content that should actually never show...
+{% endblock %}
+
+{% include './partials/footer.njk' %}

@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./built/bin/www",
+    "build": "tsc",
     "build:css": "npx postcss public/stylesheets/tailwind.css -o public/stylesheets/style.css"
   },
   "dependencies": {
