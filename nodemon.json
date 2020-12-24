@@ -1,3 +1,11 @@
 {
-  "ext": "js,ts,njk"
+  "watch": [
+    "src"
+  ],
+  "ext": "js,ts,njk",
+  "ignore": [
+    "src/**/*.spec.ts",
+    "src/**/*.d.ts"
+  ],
+  "exec": "ts-node ./src/bin/www"
 }
