@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="stylesheets/style.css">
+  </head>
+  <body class="flex justify-center items-center min-h-screen">
+    <main>
+      <div class="border rounded p-16">
+        <div class="flex justify-between">
+          <h2 class="font-bold px-4 py-2">Register</h2>
+          <a class="hover:underline px-4 py-2 text-blue-600" href="/login">Login</a>
+        </div>
+        <form action="/register" method="POST">
+          {% import './partials/inputs/text.njk' as inputText %}
+          {% import './partials/inputs/button.njk' as inputButton %}
+          {{ inputText.field('email', type='email', label="Email") }}
+          {{ inputText.field('password', type='password', label="Password") }}
+          {{ inputText.field('password_confirmation', type='password', label="Confirm Password") }}
+          {{ inputButton.field(text='Register', class='bg-green-500 hover:bg-green-700 text-white') }}
+        </form>
+      </div>
+    </main>
+  </body>
+</html>

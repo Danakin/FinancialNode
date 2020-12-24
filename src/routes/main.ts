@@ -10,4 +10,31 @@ router.get("/", function (req: Request, res: Response, next: NextFunction) {
   });
 });
 
+router.get(
+  "/login",
+  function (req: Request, res: Response, next: NextFunction) {
+    res.render("login.njk");
+  }
+);
+
+router.post(
+  "/login",
+  function (req: Request, res: Response, next: NextFunction) {
+    res.send(req.body);
+  }
+);
+router.get(
+  "/register",
+  function (req: Request, res: Response, next: NextFunction) {
+    res.render("register.njk");
+  }
+);
+
+router.post(
+  "/register",
+  function (req: Request, res: Response, next: NextFunction) {
+    res.send(req.body);
+  }
+);
+
 export default router;
