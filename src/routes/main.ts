@@ -1,4 +1,10 @@
 import { Router, NextFunction, Request, Response } from "express";
+import { UserController } from "../controllers";
+
+import * as loginValidator from "../middleware/validation/login";
+import * as registerValidator from "../middleware/validation/register";
+
+import { check, validationResult } from "express-validator";
 
 const router = Router();
 
@@ -10,30 +16,29 @@ router.get("/", function (req: Request, res: Response, next: NextFunction) {
   });
 });
 
-router.get(
-  "/login",
-  function (req: Request, res: Response, next: NextFunction) {
-    res.render("login.njk");
-  }
-);
+router.get("/login", (req: Request, res: Response) => {
+  UserController.getLogin(req, res);
+});
 
 router.post(
   "/login",
-  function (req: Request, res: Response, next: NextFunction) {
-    res.send(req.body);
-  }
-);
-router.get(
-  "/register",
-  function (req: Request, res: Response, next: NextFunction) {
-    res.render("register.njk");
+  loginValidator.rules,
+  loginValidator.validate,
+  (req: Request, res: Response) => {
+    UserController.postLogin(req, res);
   }
 );
 
+router.get("/register", (req: Request, res: Response) => {
+  UserController.getRegister(req, res);
+});
+
 router.post(
   "/register",
-  function (req: Request, res: Response, next: NextFunction) {
-    res.send(req.body);
+  registerValidator.rules,
+  registerValidator.validate,
+  (req: Request, res: Response) => {
+    UserController.postRegister(req, res);
   }
 );
 

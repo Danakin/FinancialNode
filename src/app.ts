@@ -36,20 +36,20 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(routes);
 
-async function main() {
-  const post = await prisma.post.update({
-    where: { id: 1 },
-    data: { published: true },
-  });
-  console.log(post);
-}
+// async function main() {
+//   const post = await prisma.post.update({
+//     where: { id: 1 },
+//     data: { published: true },
+//   });
+//   console.log(post);
+// }
 
-main()
-  .catch((e) => {
-    throw e;
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+// main()
+//   .catch((e) => {
+//     throw e;
+//   })
+//   .finally(async () => {
+//     await prisma.$disconnect();
+//   });
 
 export default app;

@@ -16,7 +16,13 @@
         <form action="/register" method="POST">
           {% import './partials/inputs/text.njk' as inputText %}
           {% import './partials/inputs/button.njk' as inputButton %}
+          {% if errors.email %}
+            {{ errors.email.msg }}
+          {% endif %}
           {{ inputText.field('email', type='email', label="Email") }}
+          {% if errors.password %}
+            {{ errors.password.msg }}
+          {% endif %}
           {{ inputText.field('password', type='password', label="Password") }}
           {{ inputText.field('password_confirmation', type='password', label="Confirm Password") }}
           {{ inputButton.field(text='Register', class='bg-green-500 hover:bg-green-700 text-white') }}
