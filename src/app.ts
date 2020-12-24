@@ -9,12 +9,8 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import nunjucks from "nunjucks";
 
-/* 
-  Routes imports
-  TODO: make router index file that requires files and just import that file
-*/
-import indexRouter from "./routes/index";
-import usersRouter from "./routes/users";
+/* Routes imports */
+import routes from "./routes/";
 
 /* Declare app */
 const app = express();
@@ -31,7 +27,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use(routes);
 
 export default app;
