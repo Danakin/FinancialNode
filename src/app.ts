@@ -3,6 +3,7 @@ import path from "path";
 
 /* Express.js imports */
 import express from "express";
+import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 
 /* Module imports */
@@ -28,8 +29,8 @@ nunjucks.configure("src/views", {
 });
 
 app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
