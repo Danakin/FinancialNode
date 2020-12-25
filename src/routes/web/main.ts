@@ -1,9 +1,9 @@
 import { Router, NextFunction, Request, Response } from "express";
-import { UserController } from "../controllers";
+import { UserController } from "../../controllers";
 
-import * as loginValidator from "../middleware/validation/login";
-import * as registerValidator from "../middleware/validation/register";
-import loggedIn from "../middleware/loggedin";
+import * as loginValidator from "../../middleware/validation/login";
+import * as registerValidator from "../../middleware/validation/register";
+import loggedIn from "../../middleware/loggedin";
 
 import { check, validationResult } from "express-validator";
 

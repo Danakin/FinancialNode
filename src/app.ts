@@ -21,7 +21,7 @@ import redis from "redis";
 import connectRedis from "connect-redis";
 
 /* Routes imports */
-import routes from "./routes/";
+import routes from "./routes/web";
 
 /* Declare app */
 dotenv.config();
