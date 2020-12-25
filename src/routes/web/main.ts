@@ -47,10 +47,4 @@ router.get("/secret", loggedIn, (req: Request, res: Response) => {
   res.json({ msg: "ok" });
 });
 
-declare module "express-session" {
-  interface Session {
-    user: string;
-  }
-}
-
 export default router;

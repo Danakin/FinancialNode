@@ -29,7 +29,7 @@ async function postLogin(req: Request, res: Response) {
   req.session.user = JSON.stringify({
     user: { email: user.email, isAdmin: user.isAdmin },
   });
-  return res.json(req.body);
+  return res.redirect("/users");
 }
 
 /* REGISTER FUNCTIONS */
