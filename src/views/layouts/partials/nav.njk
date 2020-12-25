@@ -1,7 +1,0 @@
-<div x-data="{ open: false }" @resize.window="open = window.innerWidth > 640 ? false : open">
-  {% include './hamburger.njk' %}
-  <nav
-  class="fixed top-0 left-0 bottom-0 w-64 bg-indigo-800 transition transform duration-200 ease-in-out sm:translate-x-0"
-  :class="{ '-translate-x-64': !open }"
-  ></nav>
-</div>

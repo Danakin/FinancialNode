@@ -1,0 +1,13 @@
+<div x-data="{ open: false }" @resize.window="open = window.innerWidth > 640 ? false : open">
+  {% include './hamburger.njk' %}
+  <nav
+  class="fixed flex flex-col items-center text-white top-0 left-0 bottom-0 w-64 bg-indigo-800 transition transform duration-200 ease-in-out sm:translate-x-0"
+  :class="{ '-translate-x-64': !open }"
+  >
+    <p class="font-bold text-xl">FinancialNode</p>
+    <a class="px-4 py-2 hover:bg-indigo-600 w-full" href="/dashboard">Dashboard</a>
+    <a class="px-4 py-2 hover:bg-indigo-600 w-full" href="/users/accounts">Accounts</a>
+    <a class="px-4 py-2 hover:bg-indigo-600 w-full" href="/users/categories">Categories</a>
+    <a class="px-4 py-2 hover:bg-indigo-600 w-full" href="/users/transactions">Transactions</a>
+  </nav>
+</div>

@@ -1,0 +1,7 @@
+{% extends "../layouts/app.njk" %}
+
+{% block content %}
+  {% for account in accounts %}
+    <li>{{ account.name }}</li>
+  {% endfor %}
+{% endblock %}

@@ -7,7 +7,7 @@ import events from "../events";
 const prisma = new PrismaClient();
 
 async function index(req: Request, res: Response) {
-  const userSession = JSON.parse(req.session.user).user;
+  const userSession = JSON.parse(req.session.user);
   console.log(userSession);
   const user = await prisma.user.findUnique({
     where: { id: userSession.id },
@@ -16,11 +16,7 @@ async function index(req: Request, res: Response) {
       categories: { include: { subcategories: true } },
     },
   });
-  console.log(user);
-  return res.render("user/index.njk", { user: user });
-  // const user = await prisma.user.findUnique({
-  //   where: { id: req.session.user },
-  // });
+  return res.render("auth/user/index.njk", { user: user });
 }
 
 /* LOGIN FUNCTIONS */
@@ -46,7 +42,9 @@ async function postLogin(req: Request, res: Response) {
     return res.render("login.njk", { errors: JSON.parse(err.message) });
   }
   req.session.user = JSON.stringify({
-    user: { id: user.id, email: user.email, isAdmin: user.isAdmin },
+    id: user.id,
+    email: user.email,
+    isAdmin: user.isAdmin,
   });
   return res.redirect("/users");
 }
