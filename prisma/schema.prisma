@@ -42,4 +42,18 @@ model User {
   modifiedAt        DateTime  @default(now())
   posts             Post[]
   profile           Profile?
+  Account           Account[]
+}
+
+model Account {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id])
+  name       String
+  icon       String?
+  balance    Float    @default(0.0)
+  order      Int
+  color      String   @default("#000000")
+  createdAt  DateTime @default(now())
+  modifiedAt DateTime @default(now())
 }
