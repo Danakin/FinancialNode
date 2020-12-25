@@ -23,6 +23,10 @@ import connectRedis from "connect-redis";
 /* Routes imports */
 import routes from "./routes/web";
 
+/* Events */
+import { registerEvents } from "./events";
+registerEvents();
+
 /* Declare app */
 dotenv.config();
 const app = express();

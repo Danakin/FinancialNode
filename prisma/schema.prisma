@@ -14,16 +14,6 @@ model Session {
   expires DateTime
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  createdAt DateTime @default(now())
-  content   String?
-  published Boolean  @default(false)
-  authorId  Int
-  author    User     @relation(fields: [authorId], references: [id])
-}
-
 model Profile {
   id     Int     @id @default(autoincrement())
   bio    String?
@@ -40,9 +30,8 @@ model User {
   isAdmin           Boolean   @default(false)
   createdAt         DateTime  @default(now())
   modifiedAt        DateTime  @default(now())
-  posts             Post[]
   profile           Profile?
-  Account           Account[]
+  accounts          Account[]
 }
 
 model Account {

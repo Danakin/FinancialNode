@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import * as argon2 from "argon2";
 import { PrismaClient } from "@prisma/client";
 
+import events from "../events";
+
 const prisma = new PrismaClient();
 
 /* LOGIN FUNCTIONS */
@@ -50,8 +52,15 @@ async function postRegister(req: Request, res: Response) {
       data: {
         email: req.body.email,
         password: hash,
+        accounts: {
+          create: [
+            { name: "wallet", order: 1 },
+            { name: "bank", order: 2 },
+          ],
+        },
       },
     }); // TODO: Do sth with this user (flash message?)
+    events.emit("new_account", newUser);
     return res.redirect("/login");
   }
 }
