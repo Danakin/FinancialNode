@@ -32,9 +32,14 @@ model Profile {
 }
 
 model User {
-  id      Int      @id @default(autoincrement())
-  name    String?
-  email   String   @unique
-  posts   Post[]
-  profile Profile?
+  id                Int       @id @default(autoincrement())
+  name              String?
+  email             String    @unique
+  email_verified_at DateTime?
+  password          String
+  isAdmin           Boolean   @default(false)
+  createdAt         DateTime  @default(now())
+  modifiedAt        DateTime  @default(now())
+  posts             Post[]
+  profile           Profile?
 }

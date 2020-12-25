@@ -42,12 +42,6 @@ router.post(
   }
 );
 
-declare module "express-session" {
-  interface Session {
-    user: string;
-  }
-}
-
 router.get(
   "/secret",
   (req: Request, res: Response, next: NextFunction) => {
@@ -58,5 +52,11 @@ router.get(
     res.json({ msg: "ok" });
   }
 );
+
+declare module "express-session" {
+  interface Session {
+    user: string;
+  }
+}
 
 export default router;

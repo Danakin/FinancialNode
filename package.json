@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@prisma/client": "^2.13.1",
+    "argon2": "^0.27.1",
     "autoprefixer": "^10.1.0",
     "body-parser": "^1.19.0",
     "connect-redis": "^5.0.0",
@@ -27,6 +28,7 @@
   },
   "devDependencies": {
     "@prisma/cli": "^2.13.1",
+    "@types/argon2": "^0.15.0",
     "@types/body-parser": "^1.19.0",
     "@types/connect-redis": "0.0.16",
     "@types/cookie-parser": "^1.4.2",
