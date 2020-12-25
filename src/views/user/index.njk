@@ -1,0 +1,20 @@
+{% extends "../layouts/app.njk" %}
+
+{% block content %}
+  <h1>{{ user.email }}</h1>
+  <p>Accounts</p>
+  <ul>
+    {% for account in user.accounts %}
+      <li>{{ account.name }}</li>
+    {% endfor %}
+  </ul>
+  <p>Categories</p>
+  {% for category in user.categories %}
+    <li>{{ category.name }}</li>
+    <ul>Subcategories
+  </ul>
+  {% for subcategory in category.subcategories %}
+    <li>{{ subcategory.name }}</li>
+  {% endfor %}
+{% endfor %}
+{% endblock %}

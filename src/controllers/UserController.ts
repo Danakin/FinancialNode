@@ -6,6 +6,23 @@ import events from "../events";
 
 const prisma = new PrismaClient();
 
+async function index(req: Request, res: Response) {
+  const userSession = JSON.parse(req.session.user).user;
+  console.log(userSession);
+  const user = await prisma.user.findUnique({
+    where: { id: userSession.id },
+    include: {
+      accounts: true,
+      categories: { include: { subcategories: true } },
+    },
+  });
+  console.log(user);
+  return res.render("user/index.njk", { user: user });
+  // const user = await prisma.user.findUnique({
+  //   where: { id: req.session.user },
+  // });
+}
+
 /* LOGIN FUNCTIONS */
 function getLogin(req: Request, res: Response) {
   res.render("login.njk");
@@ -29,7 +46,7 @@ async function postLogin(req: Request, res: Response) {
     return res.render("login.njk", { errors: JSON.parse(err.message) });
   }
   req.session.user = JSON.stringify({
-    user: { email: user.email, isAdmin: user.isAdmin },
+    user: { id: user.id, email: user.email, isAdmin: user.isAdmin },
   });
   return res.redirect("/users");
 }
@@ -356,4 +373,4 @@ async function postRegister(req: Request, res: Response) {
   }
 }
 
-export { getLogin, postLogin, getRegister, postRegister };
+export { index, getLogin, postLogin, getRegister, postRegister };
