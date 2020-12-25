@@ -3,6 +3,7 @@ import { UserController } from "../controllers";
 
 import * as loginValidator from "../middleware/validation/login";
 import * as registerValidator from "../middleware/validation/register";
+import loggedIn from "../middleware/loggedin";
 
 import { check, validationResult } from "express-validator";
 
@@ -42,16 +43,9 @@ router.post(
   }
 );
 
-router.get(
-  "/secret",
-  (req: Request, res: Response, next: NextFunction) => {
-    req.session.user = "danny";
-    next();
-  },
-  (req: Request, res: Response) => {
-    res.json({ msg: "ok" });
-  }
-);
+router.get("/secret", loggedIn, (req: Request, res: Response) => {
+  res.json({ msg: "ok" });
+});
 
 declare module "express-session" {
   interface Session {
