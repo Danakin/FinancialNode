@@ -8,7 +8,7 @@
       <div class="fixed top-0 left-0 right-0 bottom-0 bg-gray-500 opacity-75 z-10" @click="show = false"></div>
       <div class="bg-white p-8 flex flex-col z-20">
         <p>
-          Do you really want to delete Account {{ account.name }}?
+          Do you really want to delete Category {{ category.name }}?
         </p>
         <div class="flex flex-row justify-end">
           <div class="px-4 py-2 text-green-500 hover:text-green-700 cursor-pointer">Cancel</div>
@@ -16,18 +16,27 @@
         </div>
       </div>
     </div>
-    <form action="/users/accounts/{{ account.id }}" method="POST">
+    <form action="/users/categories/{{ category.id }}" method="POST">
       <input type="hidden" name="_csrf" value="{{ _csrf }}">
-      <input type="hidden" name="_method" value="put"/>
-      {{ inputText.field("name", type="text", label="Account Name", value=account.name) }}
-      {{ inputText.field("balance", value=account.balance, type="number", label="Balance", min=-999999999, max=999999999, step=0.01) }}
-      {{ inputText.field("color", value=account.color, type="color", label="Color") }}
+      <input type="hidden" name="_method" value="put">
+      {{ inputText.field('name', value=category.name, type='text', label="Category Name") }}
+      <div class="flex flex-col">
+        <div class="flex flex-row items-center">
+          <input type="radio" name="type" id="outgoing" value="outgoing" class="mr-2" {%if category.income === false %} checked {%endif%} >
+          <label for="outgoing">Outgoing</label>
+        </div>
+        <div class="flex flex-row items-center">
+          <input type="radio" name="type" id="income" value="income" class="mr-2" {%if category.income %} checked {%endif%}>
+          <label for="income">Income</label>
+        </div>
+      </div>
+      {{ inputText.field('color', value=category.color, type='color', label="Color") }}
       <div class="flex justify-end">
         <button type="submit" @click.prevent="show = true" class="px-4 py-2 text-red-500 hover:text-red-700">Delete</button>
         <button type="submit" class="bg-blue-500 hover:bg-blue-700 cursor-pointer px-4 py-2 text-white">Submit</button>
       </div>
     </form>
-    <form action="/users/accounts/{{ account.id }}" method="POST" id="delete-form">
+    <form action="/users/categories/{{ category.id }}" method="POST" id="delete-form">
       <input type="hidden" name="_csrf" value="{{ _csrf }}">
       <input type="hidden" name="_method" value="delete"/>
     </form>

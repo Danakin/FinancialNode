@@ -90,6 +90,6 @@ model Transaction {
   modifiedAt        DateTime     @default(now())
   account           Account      @relation(fields: [accountId], references: [id])
   category          Category     @relation(fields: [categoryId], references: [id])
-  subcategoriy      Subcategory? @relation(fields: [subcategoryId], references: [id])
+  subcategory       Subcategory? @relation(fields: [subcategoryId], references: [id])
   user              User         @relation(fields: [userId], references: [id])
 }

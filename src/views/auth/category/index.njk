@@ -1,7 +1,20 @@
 {% extends "../layouts/app.njk" %}
 
 {% block content %}
-  {% for category in categories %}
-    <li>{{ category.name }}</li>
-  {% endfor %}
+  <section class="flex flex-col">
+    <article class="text-right">
+      <a href="/users/categories/create" class="bg-blue-500 hover:bg-blue-700 text-white rounded cursor-pointer px-4 py-2">Add new Category</a>
+    </article>
+    {% for category in categories %}
+      <article>
+        <a href="/users/categories/{{ category.id }}" class="flex">
+          <!-- TODO: SHOW ICON COLOR -->
+          {% if category.icon %}
+            <img src="/icons/{{ category.icon }}.svg" class="mr-2"/>
+          {% endif %}
+          {{ category.name }} - {{ category.order }} - {%if category.income %} Income {% else %} Outgoing {% endif %}
+        </a>
+      </article>
+    {% endfor %}
+  </section>
 {% endblock %}

@@ -20,11 +20,11 @@ router.get("/:id([0-9]+)", function (req: Request, res: Response) {
   AccountController.edit(req, res);
 });
 
-router.put("/:id", function (req: Request, res: Response) {
+router.put("/:id([0-9]+)", function (req: Request, res: Response) {
   AccountController.update(req, res);
 });
 
-router.delete("/:id", function (req: Request, res: Response) {
+router.delete("/:id([0-9]+)", function (req: Request, res: Response) {
   AccountController.destroy(req, res);
 });
 

@@ -34,7 +34,6 @@ async function store(req: Request, res: Response) {
       user: { connect: { id: user.id } },
     },
   });
-  console.log(account);
   return res.redirect("/users/accounts");
 }
 
