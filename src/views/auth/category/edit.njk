@@ -164,7 +164,10 @@
             </div>
           </div>
         </div>
-        <p class="px-4">
+        <p class="px-4 flex">
+          {% if subcategory.icon %}
+            <img src="/icons/{{ subcategory.icon }}.svg" onload="injectSVG(event)" color="{{ category.color }}" class="mr-2" id="subcategory_{{ subcategory.id }}"/>
+          {% endif %}
           {{ subcategory.name }}
         </p>
         <div class="p-2 cursor-pointer hover:bg-indigo-100 rounded" @click="show = true">
