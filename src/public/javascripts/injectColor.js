@@ -2,8 +2,6 @@ function injectSVG(event) {
   const image = event.target;
   const color = image.getAttribute("color");
 
-  console.log(image, color);
-
   fetch(image.src)
     .then((res) => {
       return res.text();

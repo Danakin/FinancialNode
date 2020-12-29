@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import * as argon2 from "argon2";
 import { PrismaClient } from "@prisma/client";
 
+import randomColor from "../helpers/randomColor";
+
 import events from "../events";
 
 const prisma = new PrismaClient();
@@ -21,7 +23,7 @@ async function index(req: Request, res: Response) {
 
 /* LOGIN FUNCTIONS */
 function getLogin(req: Request, res: Response) {
-  res.render("login.njk");
+  res.render("login.njk", { _csrf: req.csrfToken() });
 }
 async function postLogin(req: Request, res: Response) {
   const user = await prisma.user.findUnique({
@@ -51,7 +53,7 @@ async function postLogin(req: Request, res: Response) {
 
 /* REGISTER FUNCTIONS */
 function getRegister(req: Request, res: Response) {
-  res.render("register.njk");
+  res.render("register.njk", { _csrf: req.csrfToken() });
 }
 async function postRegister(req: Request, res: Response) {
   const user = await prisma.user.findUnique({
@@ -73,25 +75,25 @@ async function postRegister(req: Request, res: Response) {
               icon: "wallet",
               name: "Wallet",
               order: 0,
-              color: "#" + Math.floor(Math.random() * 16777215).toString(16),
+              color: randomColor.getRandomColor(),
             },
             {
               icon: "piggy-bank",
               name: "PiggyBank",
               order: 1,
-              color: "#" + Math.floor(Math.random() * 16777215).toString(16),
+              color: randomColor.getRandomColor(),
             },
             {
               icon: "bank",
               name: "Bank",
               order: 2,
-              color: "#" + Math.floor(Math.random() * 16777215).toString(16),
+              color: randomColor.getRandomColor(),
             },
             {
               icon: "credit-card",
               name: "Credit Card",
               order: 3,
-              color: "#" + Math.floor(Math.random() * 16777215).toString(16),
+              color: randomColor.getRandomColor(),
             },
           ],
         },
@@ -101,7 +103,7 @@ async function postRegister(req: Request, res: Response) {
               icon: "cart",
               name: "Shopping",
               order: 0,
-              color: "#" + Math.floor(Math.random() * 16777215).toString(16),
+              color: randomColor.getRandomColor(),
               subcategories: {
                 create: [
                   { icon: "cart", name: "Supermarket", order: 0 },
@@ -126,7 +128,7 @@ async function postRegister(req: Request, res: Response) {
               icon: "food",
               name: "Food",
               order: 1,
-              color: "#" + Math.floor(Math.random() * 16777215).toString(16),
+              color: randomColor.getRandomColor(),
               subcategories: {
                 create: [
                   { icon: "silverware", name: "Restaurant", order: 0 },
@@ -148,7 +150,7 @@ async function postRegister(req: Request, res: Response) {
               icon: "home",
               name: "Home/Utilities",
               order: 2,
-              color: "#" + Math.floor(Math.random() * 16777215).toString(16),
+              color: randomColor.getRandomColor(),
               subcategories: {
                 create: [
                   { icon: "home", name: "Rent", order: 0 },
@@ -166,7 +168,7 @@ async function postRegister(req: Request, res: Response) {
               icon: "cellphone",
               name: "Communication",
               order: 3,
-              color: "#" + Math.floor(Math.random() * 16777215).toString(16),
+              color: randomColor.getRandomColor(),
               subcategories: {
                 create: [
                   { icon: "phone", name: "Telephone", order: 0 },
@@ -183,7 +185,7 @@ async function postRegister(req: Request, res: Response) {
               icon: "school",
               name: "Education",
               order: 4,
-              color: "#" + Math.floor(Math.random() * 16777215).toString(16),
+              color: randomColor.getRandomColor(),
               subcategories: {
                 create: [
                   { icon: "school", name: "Tuition", order: 0 },
@@ -202,7 +204,7 @@ async function postRegister(req: Request, res: Response) {
               icon: "train-car",
               name: "Transport",
               order: 5,
-              color: "#" + Math.floor(Math.random() * 16777215).toString(16),
+              color: randomColor.getRandomColor(),
               subcategories: {
                 create: [
                   { icon: "train", name: "Train", order: 0 },
@@ -218,7 +220,7 @@ async function postRegister(req: Request, res: Response) {
               icon: "car",
               name: "Automobile",
               order: 6,
-              color: "#" + Math.floor(Math.random() * 16777215).toString(16),
+              color: randomColor.getRandomColor(),
               subcategories: {
                 create: [
                   { icon: "car", name: "Big outlet", order: 0 },
@@ -240,7 +242,7 @@ async function postRegister(req: Request, res: Response) {
               icon: "filmstrip",
               name: "Hobby",
               order: 7,
-              color: "#" + Math.floor(Math.random() * 16777215).toString(16),
+              color: randomColor.getRandomColor(),
               subcategories: {
                 create: [
                   { icon: "book", name: "Books", order: 0 },
@@ -263,7 +265,7 @@ async function postRegister(req: Request, res: Response) {
               icon: "drama-masks",
               name: "Culture",
               order: 8,
-              color: "#" + Math.floor(Math.random() * 16777215).toString(16),
+              color: randomColor.getRandomColor(),
               subcategories: {
                 create: [
                   { icon: "theater", name: "Theater", order: 0 },
@@ -278,7 +280,7 @@ async function postRegister(req: Request, res: Response) {
               icon: "tshirt-crew",
               name: "Fashion",
               order: 9,
-              color: "#" + Math.floor(Math.random() * 16777215).toString(16),
+              color: randomColor.getRandomColor(),
               subcategories: {
                 create: [
                   { icon: "tshirt-v", name: "Clothes", order: 0 },
@@ -294,7 +296,7 @@ async function postRegister(req: Request, res: Response) {
               icon: "needle",
               name: "Medical",
               order: 10,
-              color: "#" + Math.floor(Math.random() * 16777215).toString(16),
+              color: randomColor.getRandomColor(),
               subcategories: {
                 create: [
                   { icon: "hospital-building", name: "Hospital", order: 0 },
@@ -308,7 +310,7 @@ async function postRegister(req: Request, res: Response) {
               icon: "glass-cocktail",
               name: "Social",
               order: 11,
-              color: "#" + Math.floor(Math.random() * 16777215).toString(16),
+              color: randomColor.getRandomColor(),
               subcategories: {
                 create: [
                   { icon: "gift", name: "Presents", order: 0 },
@@ -322,7 +324,7 @@ async function postRegister(req: Request, res: Response) {
               icon: "finance",
               name: "Taxes",
               order: 12,
-              color: "#" + Math.floor(Math.random() * 16777215).toString(16),
+              color: randomColor.getRandomColor(),
               subcategories: {
                 create: [
                   { icon: "cash", name: "Income Tax", order: 0 },
@@ -339,7 +341,7 @@ async function postRegister(req: Request, res: Response) {
               icon: "dots-horizontal",
               name: "Else",
               order: 13,
-              color: "#" + Math.floor(Math.random() * 16777215).toString(16),
+              color: randomColor.getRandomColor(),
               subcategories: {
                 create: [{ icon: "dots-horizontal", name: "Else", order: 0 }],
               },
@@ -349,7 +351,7 @@ async function postRegister(req: Request, res: Response) {
               name: "Income",
               order: 14,
               income: true,
-              color: "#" + Math.floor(Math.random() * 16777215).toString(16),
+              color: randomColor.getRandomColor(),
               subcategories: {
                 create: [
                   { icon: "bank-plus", name: "Salary", order: 0 },
