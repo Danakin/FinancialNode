@@ -1,11 +1,20 @@
 {% extends "../layouts/app.njk" %}
 
 {% block content %}
-  {% for account in accounts %}
-    <li>
-      <!-- TODO: SHOW ICON COLOR -->
-      {{ account.icon }}
-      {{ account.name }}
-    </li>
-  {% endfor %}
+  <section class="flex flex-col">
+    <article class="text-right">
+      <a href="/users/accounts/create" class="bg-blue-500 hover:bg-blue-700 text-white rounded cursor-pointer px-4 py-2">Add new Account</a>
+    </article>
+    {% for account in accounts %}
+      <article>
+        <a href="/users/accounts/{{ account.id }}" class="flex">
+          <!-- TODO: SHOW ICON COLOR -->
+          {% if account.icon %}
+            <img src="/icons/{{ account.icon }}.svg" class="mr-2"/>
+          {% endif %}
+          {{ account.name }} - {{ account.order }}
+        </a>
+      </article>
+    {% endfor %}
+  </section>
 {% endblock %}

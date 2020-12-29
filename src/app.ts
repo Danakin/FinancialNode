@@ -5,6 +5,8 @@ import path from "path";
 import express from "express";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
+import methodOverride from "method-override";
+import csrf from "csurf";
 
 /* Module imports */
 import logger from "morgan";
@@ -55,6 +57,16 @@ app.use(
     store: new RedisStore({ client: redisClient }),
   })
 );
+app.use(
+  methodOverride(function (req, res) {
+    if (req.body && typeof req.body === "object" && "_method" in req.body) {
+      const method = req.body._method;
+      delete req.body._method;
+      return method;
+    }
+  })
+);
+app.use(csrf({ cookie: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(routes);

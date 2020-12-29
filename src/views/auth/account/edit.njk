@@ -1,0 +1,39 @@
+{% extends "../layouts/app.njk" %}
+
+{% import "../../partials/inputs/text.njk" as inputText %}
+
+{% block content %}
+  <div x-data="{ show: false }" class="relative">
+    <div class="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center" :class="{ 'hidden': !show }" >
+      <div class="fixed top-0 left-0 right-0 bottom-0 bg-gray-500 opacity-75 z-10" @click="show = false"></div>
+      <div class="bg-white p-8 flex flex-col z-20">
+        <p>
+          Do you really want to delete Account {{ account.name }}?
+        </p>
+        <div class="flex flex-row justify-end">
+          <div class="px-4 py-2 text-green-500 hover:text-green-700 cursor-pointer">Cancel</div>
+          <div class="px-4 py-2 bg-red-500 hover:bg-red-700 cursor-pointer text-white" @click="confirmDelete(event)">Delete</div>
+        </div>
+      </div>
+    </div>
+    <form action="/users/accounts/{{ account.id }}" method="POST">
+      <input type="hidden" name="_csrf" value="{{ _csrf }}">
+      <input type="hidden" name="_method" value="put"/>
+      {{ inputText.field("name", type="text", label="Account Name", value=account.name) }}
+      {{ inputText.field("balance", value=account.balance, type="number", label="Balance", min=-999999999, max=999999999, step=0.01) }}
+      {{ inputText.field("color", value=account.color, type="color", label="Color") }}
+      <button type="submit" class="bg-blue-500 hover:bg-blue-700 cursor-pointer px-4 py-2 text-white">Submit</button>
+      <button type="submit" @click.prevent="show = true" class="px-4 py-2 text-red-500 hover:text-red-700">Delete</button>
+    </form>
+    <form action="/users/accounts/{{ account.id }}" method="POST" id="delete-form">
+      <input type="hidden" name="_csrf" value="{{ _csrf }}">
+      <input type="hidden" name="_method" value="delete"/>
+    </form>
+    <script>
+      function confirmDelete(event) {
+        const form = document.getElementById("delete-form")
+        form.submit()
+      }
+    </script>
+  </div>
+{% endblock %}
