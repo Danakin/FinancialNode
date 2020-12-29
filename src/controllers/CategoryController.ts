@@ -16,7 +16,6 @@ function create(req: Request, res: Response) {
 }
 
 async function store(req: Request, res: Response) {
-  console.log(req.body);
   const user = JSON.parse(req.session.user);
   const categories = await prisma.category.findMany({
     where: { userId: user.id },
@@ -38,10 +37,17 @@ async function store(req: Request, res: Response) {
 }
 
 async function edit(req: Request, res: Response) {
+  const user = JSON.parse(req.session.user);
   const id = Number(req.params.id);
+  const verifyCategory = await prisma.category.findMany({
+    where: { id: id, userId: user.id },
+  });
+  if (verifyCategory.length === 0 && user.isAdmin === false)
+    return res.render("back");
   const category = await prisma.category.findUnique({
     where: { id: id },
   });
+  if (!category) return res.redirect("/users/categories");
   return res.render("auth/category/edit.njk", {
     _csrf: req.csrfToken(),
     category: category,
@@ -49,7 +55,13 @@ async function edit(req: Request, res: Response) {
 }
 
 async function update(req: Request, res: Response) {
+  const user = JSON.parse(req.session.user);
   const id = Number(req.params.id);
+  const verifyCategory = await prisma.category.findMany({
+    where: { id: id, userId: user.id },
+  });
+  if (verifyCategory.length === 0 && user.isAdmin === false)
+    return res.render("back");
   const category = await prisma.category.update({
     where: { id: id },
     data: {
@@ -64,8 +76,13 @@ async function update(req: Request, res: Response) {
 }
 
 async function destroy(req: Request, res: Response) {
-  const id = Number(req.params.id);
   const user = JSON.parse(req.session.user);
+  const id = Number(req.params.id);
+  const verifyCategory = await prisma.category.findMany({
+    where: { id: id, userId: user.id },
+  });
+  if (verifyCategory.length === 0 && user.isAdmin === false)
+    return res.render("back");
 
   // TODO: THIS IS A WORKAROUND UNTIL CASCADING DELETES WORK WITH PRISMA CAN DELETE AS SOON AS THEY WORK
   const subcategories = await prisma.subcategory.deleteMany({

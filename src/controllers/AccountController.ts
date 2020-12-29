@@ -38,10 +38,17 @@ async function store(req: Request, res: Response) {
 }
 
 async function edit(req: Request, res: Response) {
+  const user = JSON.parse(req.session.user);
   const id = Number(req.params.id);
+  const verifyAccount = await prisma.account.findMany({
+    where: { id: id, userId: user.id },
+  });
+  if (verifyAccount.length === 0 && user.isAdmin === false)
+    return res.render("back");
   const account = await prisma.account.findUnique({
     where: { id: id },
   });
+  if (!account) return res.redirect("/users/categories");
   return res.render("auth/account/edit.njk", {
     _csrf: req.csrfToken(),
     account: account,
@@ -49,7 +56,13 @@ async function edit(req: Request, res: Response) {
 }
 
 async function update(req: Request, res: Response) {
+  const user = JSON.parse(req.session.user);
   const id = Number(req.params.id);
+  const verifyAccount = await prisma.account.findMany({
+    where: { id: id, userId: user.id },
+  });
+  if (verifyAccount.length === 0 && user.isAdmin === false)
+    return res.render("back");
   const account = await prisma.account.update({
     where: { id: id },
     data: {
@@ -66,6 +79,11 @@ async function update(req: Request, res: Response) {
 async function destroy(req: Request, res: Response) {
   const id = Number(req.params.id);
   const user = JSON.parse(req.session.user);
+  const verifyAccount = await prisma.account.findMany({
+    where: { id: id, userId: user.id },
+  });
+  if (verifyAccount.length === 0 && user.isAdmin === false)
+    return res.render("back");
   const account = await prisma.account.delete({
     where: { id: id },
   });
