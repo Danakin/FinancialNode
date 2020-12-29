@@ -7,6 +7,7 @@ async function index(req: Request, res: Response) {
   const user = JSON.parse(req.session.user);
   const categories = await prisma.category.findMany({
     where: { userId: user.id },
+    include: { subcategories: true },
   });
   return res.render("auth/category/index.njk", { categories: categories });
 }
@@ -46,6 +47,7 @@ async function edit(req: Request, res: Response) {
     return res.render("back");
   const category = await prisma.category.findUnique({
     where: { id: id },
+    include: { subcategories: true },
   });
   if (!category) return res.redirect("/users/categories");
   return res.render("auth/category/edit.njk", {

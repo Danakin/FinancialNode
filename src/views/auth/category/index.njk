@@ -1,19 +1,38 @@
 {% extends "../layouts/app.njk" %}
 
 {% block content %}
+
   <section class="flex flex-col">
     <article class="text-right">
       <a href="/users/categories/create" class="bg-blue-500 hover:bg-blue-700 text-white rounded cursor-pointer px-4 py-2">Add new Category</a>
     </article>
     {% for category in categories %}
       <article>
-        <a href="/users/categories/{{ category.id }}" class="flex">
+        <a href="/users/categories/{{ category.id }}" class="flex my-2">
           <!-- TODO: SHOW ICON COLOR -->
           {% if category.icon %}
-            <img src="/icons/{{ category.icon }}.svg" class="mr-2"/>
+            {{ category.color }}
+            <img src="/icons/{{ category.icon }}.svg" onload="injectSVG(event)" color="{{ category.color }}" class="mr-2" id="category_{{ category.id }}"/>
           {% endif %}
           {{ category.name }} - {{ category.order }} - {%if category.income %} Income {% else %} Outgoing {% endif %}
         </a>
+        <div class="flex flex-col border border-black bg-indigo-50 rounded p-2" x-data="{ expanded: false }">
+          <div :class="{ 'mb-2': expanded }" @click="expanded = !expanded" class="flex justify-between">
+            <p>
+              Subcategories
+            </p>
+            <p>
+              <img :src="expanded? '/icons/arrow-up.svg' : '/icons/arrow-down.svg'"/>
+            </p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2" :class="{ 'hidden': !expanded }">
+            {% for subcategory in category.subcategories %}
+              <div class="bg-white border border-gray-700 p-1 rounded">
+                {{ subcategory.name }}
+              </div>
+            {% endfor %}
+          </div>
+        </div>
       </article>
     {% endfor %}
   </section>

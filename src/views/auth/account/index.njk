@@ -1,6 +1,7 @@
 {% extends "../layouts/app.njk" %}
 
 {% block content %}
+  <script src="/javascripts/injectColor.js"></script>
   <section class="flex flex-col">
     <article class="text-right">
       <a href="/users/accounts/create" class="bg-blue-500 hover:bg-blue-700 text-white rounded cursor-pointer px-4 py-2">Add new Account</a>
@@ -10,7 +11,7 @@
         <a href="/users/accounts/{{ account.id }}" class="flex">
           <!-- TODO: SHOW ICON COLOR -->
           {% if account.icon %}
-            <img src="/icons/{{ account.icon }}.svg" class="mr-2"/>
+            <img src="/icons/{{ account.icon }}.svg" color="{{ account.color }}" onload="injectSVG(event)" class="mr-2"/>
           {% endif %}
           {{ account.name }} - {{ account.order }}
         </a>
