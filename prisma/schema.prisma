@@ -29,17 +29,18 @@ model User {
 }
 
 model Account {
-  id           Int           @id @default(autoincrement())
-  userId       Int
-  name         String
-  icon         String?
-  balance      Float         @default(0.0)
-  order        Int
-  color        String        @default("#000000")
-  createdAt    DateTime      @default(now())
-  modifiedAt   DateTime      @default(now())
-  user         User          @relation(fields: [userId], references: [id])
-  transactions Transaction[]
+  id                   Int           @id @default(autoincrement())
+  userId               Int
+  name                 String
+  icon                 String?
+  balance              Float         @default(0.0)
+  order                Int
+  color                String        @default("#000000")
+  createdAt            DateTime      @default(now())
+  modifiedAt           DateTime      @default(now())
+  user                 User          @relation(fields: [userId], references: [id])
+  transactions         Transaction[]
+  transfertransactions Transaction[] @relation("transfer")
 }
 
 model Category {
@@ -77,11 +78,11 @@ model Transaction {
   accountId         Int
   amount            Float        @default(0.0)
   description       String
-  memory            String
+  memo              String
   year              Int
   month             Int
   day               Int
-  hour              Int
+  hours             Int
   minutes           Int
   income            Boolean      @default(false)
   transfer          Boolean      @default(false)
@@ -92,4 +93,5 @@ model Transaction {
   category          Category     @relation(fields: [categoryId], references: [id])
   subcategory       Subcategory? @relation(fields: [subcategoryId], references: [id])
   user              User         @relation(fields: [userId], references: [id])
+  transferAccount   Account?     @relation(fields: [transferAccountId], references: [id], name: "transfer")
 }

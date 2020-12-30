@@ -1,0 +1,96 @@
+{% extends "../layouts/app.njk" %}
+
+{% import '../../partials/inputs/text.njk' as inputText %}
+
+{% block content %}
+  <section class="flex flex-col">
+  create
+    {{ __csrf }}
+    <div x-data="{ account: 0, category: 0, subcategory: 0, type: 'outgoing', transferAccount: 0, date: new Date() }">
+      <script>
+        function submitForm(category, subcategory) {
+          const form = document.getElementById("submit-form");
+          if (category > 0 && subcategory > 0) {
+            form.submit()
+          } else {
+            console.log("0")
+          }
+        }
+      </script>
+
+      <form action="/users/transactions" method="POST" class="flex flex-col" id="submit-form">
+        <input type="hidden" name="_csrf" value="{{ _csrf }}">
+        <div>
+          <label for="account">Account</label>
+          <select name="account" id="account" x-model.number="account">
+            <option value="0">
+              ---
+            </option>
+            {% for account in accounts %}
+              <option value="{{ account.id }}">{{ account.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div>
+          <label for="category">Category</label>
+          <select name="category" id="category" x-model.number="category">
+            <option value="0">
+              ---
+            </option>
+            {% for category in categories %}
+              <option value="{{ category.id }}">{{ category.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div>
+          <label for="subcategory">Subcategory</label>
+          <select name="subcategory" id="subcategory" x-model.number="subcategory">
+            <option value="0">
+              ---
+            </option>
+            {% for category in categories %}
+              {% for subcategory in category.subcategories %}
+                <option x-show="category === {{ category.id }}" value="{{ subcategory.id }}">{{subcategory.name}}</option>
+              {% endfor %}
+            {% endfor %}
+          </select>
+        </div>
+
+        {{ inputText.field('amount', type='number', min=0, step=1, label="Amount", value=0) }}
+        {{ inputText.field('description', label="Description") }}
+        {{ inputText.field('date', type='datetime-local', label="Date & Time") }}
+        <div>
+          <div>
+            <label for="outgoing">Outgoing</label>
+            <input x-model="type" type="radio" name="type" id="outgoing" value="outgoing">
+          </div>
+          <div>
+            <label for="income">Income</label>
+            <input x-model="type" type="radio" name="type" id="income" value="income"> 
+          </div>
+          <div>
+            <label for="transfer">Transfer</label>
+            <input x-model="type" type="radio" name="type" id="transfer" value="transfer">
+          </div>
+        </div>
+
+        <template x-if="type === 'transfer'">
+          <div>
+            <label for="account">Transfer to</label>
+            <select name="transferAccount" id="transferAccount" x-model.number="transferAccount">
+              <option value="0">
+                ---
+            </option>
+            {% for account in accounts %}
+              <option value="{{ account.id }}">{{ account.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </template>
+
+      <button type="submit" @click.prevent="submitForm(category, subcategory)" class="bg-blue-500 hover:bg-blue-700 cursor-pointer px-4 py-2 text-white">Submit</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

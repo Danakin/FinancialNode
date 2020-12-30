@@ -1,7 +1,21 @@
 {% extends "../layouts/app.njk" %}
 
 {% block content %}
-  {% for category in categories %}
-    <li>{{ category.name }}</li>
-  {% endfor %}
-{% endblock %}
+  <section class="flex flex-col">
+    <article class="text-right">
+      <a href="/users/transactions/create" class="bg-blue-500 hover:bg-blue-700 text-white rounded cursor-pointer px-4 py-2">Add new Transaction</a>
+    </article>
+    {% for transaction in transactions %}
+      <article>
+        {{ transaction.description }} - {{ transaction.year }}/{{ transaction.month }}/{{ transaction.day }}
+        {{ transaction.hours }}:{{ transaction.minutes }} - {%if transaction.income %}
+          <span class="text-green-500">Income{% elif transaction.transfer %}
+            <span class="text-blue-500">Transfer to {{ transaction.transferAccount.name }}
+            {% else %}
+              <span class="text-red-500">Outgoing{% endif %}
+              {{ transaction.amount }}
+            </span>
+          </article>
+        {% endfor %}
+      </section>
+    {% endblock %}
