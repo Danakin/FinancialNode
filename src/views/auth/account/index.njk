@@ -13,7 +13,7 @@
           {% if account.icon %}
             <img src="/icons/{{ account.icon }}.svg" color="{{ account.color }}" onload="injectSVG(event)" class="mr-2"/>
           {% endif %}
-          {{ account.name }} - {{ account.order }}
+          {{ account.name }} - {{ account.order }} - {{ account.balance }}
         </a>
       </article>
     {% endfor %}

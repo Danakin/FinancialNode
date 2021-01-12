@@ -6,7 +6,7 @@
   <section class="flex flex-col">
   create
     {{ __csrf }}
-    <div x-data="{ account: 0, category: 0, subcategory: 0, type: 'outgoing', transferAccount: 0, date: new Date() }">
+    <div x-data="{ account: 0, category: 0, subcategory: 0, type: 'outgoing', transferAccount: 0, date: new Date().toISOString().substr(0,19) }">
       <script>
         function submitForm(category, subcategory) {
           const form = document.getElementById("submit-form");
@@ -59,7 +59,8 @@
 
         {{ inputText.field('amount', type='number', min=0, step=1, label="Amount", value=0) }}
         {{ inputText.field('description', label="Description") }}
-        {{ inputText.field('date', type='datetime-local', label="Date & Time") }}
+        {{ inputText.field('date', type='datetime-local', label="Date & Time", xmodel="date") }}
+        <span x-html="date"></span>
         <div>
           <div>
             <label for="outgoing">Outgoing</label>

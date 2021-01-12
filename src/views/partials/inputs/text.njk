@@ -1,4 +1,4 @@
-{% macro field(name, value = '', type = 'text', label = 'Label', min = 0, max = 2, step = 1) %}
+{% macro field(name, value = '', type = 'text', label = 'Label', min = 0, max = 2, step = 1, xmodel = '') %}
   <div class="flex flex-col my-2">
     <label for="{{ name }}">{{ label }}</label>
     <input
@@ -10,6 +10,7 @@
       min="{{ min }}"
       max="{{ max }}"
       step="{{ step }}"
+      {{ "x-model=" + xmodel if xmodel != '' }}
 />
   </div>
 {% endmacro %}
