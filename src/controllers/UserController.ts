@@ -41,7 +41,10 @@ async function postLogin(req: Request, res: Response) {
       }
     }
   } catch (err) {
-    return res.render("login.njk", { errors: JSON.parse(err.message) });
+    return res.render("login.njk", {
+      _csrf: req.csrfToken(),
+      errors: JSON.parse(err.message),
+    });
   }
   req.session.user = JSON.stringify({
     id: user.id,
@@ -61,7 +64,7 @@ async function postRegister(req: Request, res: Response) {
   });
   if (user) {
     return res.render("register.njk", {
-      errors: { email: { msg: "User already exists" } },
+      errors: { _csrf: req.csrfToken(), email: { msg: "User already exists" } },
     });
   } else {
     const hash = await argon2.hash(req.body.password);

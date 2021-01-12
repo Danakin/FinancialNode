@@ -14,6 +14,7 @@ function validate(req: Request, res: Response, next: NextFunction) {
     return next();
   }
   return res.render("login.njk", {
+    _csrf: req.csrfToken(),
     errors: err.mapped(),
     email: req.body.email,
   });
