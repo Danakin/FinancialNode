@@ -3,8 +3,7 @@
 {% import '../../partials/inputs/text.njk' as inputText %}
 
 {% block content %}
-  <section class="flex flex-col">
-  create
+  <section class="flex flex-col container mx-auto">
     {{ __csrf }}
     <div x-data="{ account: 0, category: 0, subcategory: 0, type: 'outgoing', transferAccount: 0, date: new Date().toISOString().substr(0,19) }">
       <script>
@@ -18,11 +17,20 @@
         }
       </script>
 
-      <form action="/users/transactions" method="POST" class="flex flex-col" id="submit-form">
+      <form action="/users/transactions" method="POST" class="flex flex-col p-4 bg-white m-8" id="submit-form" >
         <input type="hidden" name="_csrf" value="{{ _csrf }}">
-        <div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3">
+            <label for="outgoing" class="cursor-pointer text-center py-2 hover:bg-gray-200" :class="{ 'bg-red-200': type === 'outgoing' }">Outgoing <input x-model="type" type="radio" name="type" id="outgoing" value="outgoing" class="hidden"></label>
+            
+            <label for="income" class="cursor-pointer text-center py-2 hover:bg-gray-200" :class="{ 'bg-green-300': type === 'income' }">Income <input x-model="type" type="radio" name="type" id="income" value="income" class="hidden"></label>
+            <label for="transfer" class="cursor-pointer text-center py-2 hover:bg-gray-200" :class="{ 'bg-blue-300': type === 'transfer' }">Transfer <input x-model="type" type="radio" name="type" id="transfer" value="transfer" class="hidden"></label>
+        </div>
+
+      <div class="flex flex-col sm:flex-row">
+        <div class="flex flex-col flex-1">
           <label for="account">Account</label>
-          <select name="account" id="account" x-model.number="account">
+          <select name="account" id="account" x-model.number="account" class="border border-black p-1 rounded">
             <option value="0">
               ---
             </option>
@@ -31,64 +39,57 @@
             {% endfor %}
           </select>
         </div>
-        <div>
-          <label for="category">Category</label>
-          <select name="category" id="category" x-model.number="category">
-            <option value="0">
-              ---
-            </option>
-            {% for category in categories %}
-              <option value="{{ category.id }}">{{ category.name }}</option>
-            {% endfor %}
-          </select>
+        <div class="flex-shrink flex items-center sm:mx-2 sm:mt-6">
+          <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" />
+          </svg>
         </div>
-
-        <div>
-          <label for="subcategory">Subcategory</label>
-          <select name="subcategory" id="subcategory" x-model.number="subcategory">
-            <option value="0">
-              ---
-            </option>
-            {% for category in categories %}
-              {% for subcategory in category.subcategories %}
-                <option x-show="category === {{ category.id }}" value="{{ subcategory.id }}">{{subcategory.name}}</option>
+        <template x-if="type === 'transfer'">
+          <div class="flex flex-col flex-1">
+            <label for="account">Transfer to</label>
+            <select name="transferAccount" id="transferAccount" x-model.number="transferAccount" class="border border-black p-1 rounded">
+              <option value="0">
+                ---
+              </option>
+              {% for account in accounts %}
+                <option value="{{ account.id }}">{{ account.name }}</option>
               {% endfor %}
-            {% endfor %}
-          </select>
-        </div>
-
+            </select>
+          </div>
+        </template>
+        <template x-if="type === 'outgoing' || type === 'income'">
+          <div class="flex-1">
+            <div class="flex flex-col">
+              <label for="category">Category</label>
+              <select name="category" id="category" x-model.number="category" class="border border-black p-1 rounded">
+                <option value="0">
+                  ---
+                </option>
+                {% for category in categories %}
+                  <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="flex flex-col">
+              <label for="subcategory">Subcategory</label>
+              <select name="subcategory" id="subcategory" x-model.number="subcategory" class="border border-black p-1 rounded">
+                <option value="0">
+                  ---
+                </option>
+                {% for category in categories %}
+                  {% for subcategory in category.subcategories %}
+                    <option x-show="category === {{ category.id }}" value="{{ subcategory.id }}">{{subcategory.name}}</option>
+                  {% endfor %}
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+        </template>
+      </div>
+        
         {{ inputText.field('amount', type='number', min=0, step=1, label="Amount", value=0) }}
         {{ inputText.field('description', label="Description") }}
         {{ inputText.field('date', type='datetime-local', label="Date & Time", xmodel="date") }}
-        <span x-html="date"></span>
-        <div>
-          <div>
-            <label for="outgoing">Outgoing</label>
-            <input x-model="type" type="radio" name="type" id="outgoing" value="outgoing">
-          </div>
-          <div>
-            <label for="income">Income</label>
-            <input x-model="type" type="radio" name="type" id="income" value="income"> 
-          </div>
-          <div>
-            <label for="transfer">Transfer</label>
-            <input x-model="type" type="radio" name="type" id="transfer" value="transfer">
-          </div>
-        </div>
-
-        <template x-if="type === 'transfer'">
-          <div>
-            <label for="account">Transfer to</label>
-            <select name="transferAccount" id="transferAccount" x-model.number="transferAccount">
-              <option value="0">
-                ---
-            </option>
-            {% for account in accounts %}
-              <option value="{{ account.id }}">{{ account.name }}</option>
-            {% endfor %}
-          </select>
-        </div>
-      </template>
 
       <button type="submit" @click.prevent="submitForm(category, subcategory)" class="bg-blue-500 hover:bg-blue-700 cursor-pointer px-4 py-2 text-white">Submit</button>
     </form>
