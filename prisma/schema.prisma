@@ -73,7 +73,7 @@ model Subcategory {
 model Transaction {
   id                Int          @id @default(autoincrement())
   userId            Int
-  categoryId        Int
+  categoryId        Int?
   subcategoryId     Int?
   accountId         Int
   amount            Float        @default(0.0)
@@ -90,7 +90,7 @@ model Transaction {
   createdAt         DateTime     @default(now())
   modifiedAt        DateTime     @default(now())
   account           Account      @relation(fields: [accountId], references: [id])
-  category          Category     @relation(fields: [categoryId], references: [id])
+  category          Category?    @relation(fields: [categoryId], references: [id])
   subcategory       Subcategory? @relation(fields: [subcategoryId], references: [id])
   user              User         @relation(fields: [userId], references: [id])
   transferAccount   Account?     @relation(fields: [transferAccountId], references: [id], name: "transfer")
